@@ -1,134 +1,1147 @@
 /*
-** Todo application version 1.0.
+** Oracle Todo Application - Diseño Premium con Colores Oficiales
 **
-** Copyright (c) 2020, Oracle and/or its affiliates.
+** Copyright (c) 2025, Oracle and/or its affiliates.
 ** Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
 */
+
+/* Variables CSS - Colores oficiales de Oracle y configuraciones */
+:root {
+  /* Colores base */
+  --oracle-red: #C74634;
+  --oracle-dark: #312D2A;
+  --oracle-dark-shadow: #252220;
+  --oracle-text: #FFFFFF;
+  --oracle-gray-border: #5B5652;
+  --oracle-gray-light: #E8E8E8;
+  --oracle-white: #FFFFFF;
+  
+  /* Transparencias comunes */
+  --trans-05: rgba(255, 255, 255, 0.05);
+  --trans-07: rgba(255, 255, 255, 0.07);
+  --trans-10: rgba(255, 255, 255, 0.1);
+  --trans-15: rgba(255, 255, 255, 0.15);
+  --trans-25: rgba(255, 255, 255, 0.25);
+  --trans-40: rgba(255, 255, 255, 0.4);
+  --trans-70: rgba(255, 255, 255, 0.7);
+  --trans-90: rgba(255, 255, 255, 0.9);
+  
+  /* Colores para estados */
+  --status-pending: var(--trans-15);
+  --status-in-progress: rgba(255, 193, 7, 0.3);
+  --status-in-review: rgba(3, 169, 244, 0.3);
+  --status-completed: rgba(76, 175, 80, 0.3);
+  
+  /* Colores para prioridades */
+  --priority-low: rgba(76, 175, 80, 0.3);
+  --priority-medium: rgba(3, 169, 244, 0.3);
+  --priority-high: rgba(255, 152, 0, 0.3);
+  --priority-critical: rgba(244, 67, 54, 0.3);
+  
+  /* Sombras y efectos */
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-red: 0 4px 15px rgba(199, 70, 52, 0.4);
+  
+  /* Bordes y radios */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  
+  /* Espaciados */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-xxl: 3rem;
+  
+  /* Fuentes */
+  --font-sm: 0.75rem;
+  --font-md: 0.9rem;
+  --font-lg: 1rem;
+  --font-xl: 1.3rem;
+  --font-xxl: 1.8rem;
+}
+
+/* Estilos base */
 body {
-    /* from the redwood theme */
-    background-color: #3A3632;
-    width: 100%;
-    max-width: 50rem;
-    margin: 0 auto;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, var(--oracle-dark) 0%, #1A1A18 100%);
+  background-attachment: fixed;
+  color: var(--oracle-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root {
+  width: 100%;
+  max-width: 50rem;
+  margin: 2rem auto;
+}
+
+.App {
+  background: linear-gradient(160deg, var(--oracle-dark) 0%, #1A1A18 100%);
+  color: var(--oracle-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: max(14px, min(2vw, 16px));
+  margin: 0 auto;
+  padding: var(--space-xl);
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border: 1px solid var(--trans-05);
+}
+
+/* Efecto de brillo en los bordes */
+.App::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--oracle-red), transparent);
+  animation: animateBorder 3s linear infinite;
+}
+
+@keyframes animateBorder {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Logos y elementos corporativos */
+.oracle-logo {
+  height: 180px !important; /* Forzar altura */
+  display: inline-block;
+  margin-bottom: var(--space-md);
+}
+
+div#maincontent, div#newinputform form {
+  width: 100%;
+}
+
+div#maincontent {
+  margin: 0;
+  padding: 0;
+}
+
+/* Títulos y encabezados */
+h1 {
+  margin: var(--space-sm) 0 var(--space-lg) 0;
+  padding: 0;
+  text-align: center;
+  font-size: var(--font-xxl);
+  letter-spacing: 2px;
+  color: var(--oracle-red);
+  position: relative;
+  display: inline-block;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: var(--oracle-red);
+  border-radius: 3px;
+}
+
+h2 {
+  margin: var(--space-sm) 0 var(--space-md) 0;
+  padding: 0 0 0 var(--space-lg);
+  font-size: var(--font-xl);
+  color: #e6e6e6;
+  position: relative;
+}
+
+h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 20px;
+  background-color: var(--oracle-red);
+  border-radius: var(--radius-sm);
+}
+
+/* Pestañas de navegación mejoradas */
+.app-tabs {
+  display: flex;
+  margin-bottom: var(--space-xl);
+  width: 100%;
+  background-color: var(--trans-07);
+  border-radius: var(--radius-md);
+  padding: 5px;
+  box-shadow: var(--shadow-sm);
+}
+
+.app-tab {
+  flex: 1;
+  text-align: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: var(--font-md);
+  color: var(--trans-70);
+}
+
+.app-tab.active {
+  background-color: var(--oracle-red);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.app-tab:not(.active):hover {
+  background-color: var(--trans-15);
+  color: var(--trans-90);
+}
+
+/* Formulario de entrada de tareas */
+#newiteminput {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: var(--trans-07);
+  border: 1px solid var(--trans-10);
+  border-radius: var(--radius-md);
+  color: var(--oracle-text);
+  font-size: var(--font-lg);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  height: 46px;
+}
+
+#newiteminput:focus {
+  background-color: var(--trans-15);
+  border-color: var(--oracle-red);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(199, 70, 52, 0.25);
+}
+
+#newiteminput::placeholder {
+  color: var(--trans-40);
+}
+
+div#newinputform {
+  width: 100%;
+  margin-bottom: var(--space-xl);
+}
+
+div#newinputform form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* Lista de tareas completadas */
+#donelist {
+  margin: var(--space-lg) 0 var(--space-md) 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+#donelist::before {
+  content: '✓';
+  display: inline-block;
+  color: var(--oracle-text);
+  margin-right: var(--space-sm);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Tablas de tareas */
+table#itemlistNotDone {
+  margin-bottom: var(--space-xl);
+  width: 100%;
+}
+
+table#itemlistDone {
+  margin-bottom: var(--space-xxl);
+  width: 100%;
+}
+
+table.itemlist {
+  margin-top: var(--space-md);
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-bottom: var(--space-lg);
+  width: 100%;
+}
+
+/* Filas de tareas */
+table.itemlist tr.task-row {
+  background: var(--trans-05);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-out;
+  cursor: pointer;
+}
+
+table.itemlist tr.task-row:hover {
+  background: var(--trans-10);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+table.itemlist td {
+  padding: 0.75rem;
+  border: none;
+}
+
+table.itemlist td:first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+table.itemlist td:last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+table.itemlist td.description {
+  width: 100%;
+  padding: var(--space-md);
+  word-break: break-word;
+  font-size: var(--font-lg);
+}
+
+/* Pasos dentro de la descripción */
+.steps {
+  margin-top: var(--space-sm);
+  font-size: 0.85rem;
+  opacity: 0.7;
+  padding-left: var(--space-sm);
+  border-left: 2px solid var(--trans-10);
+  white-space: pre-line;
+}
+
+/* Estilo para items completados */
+#itemlistDone td.description {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+table.itemlist td.date {
+  font-size: var(--font-sm);
+  color: var(--trans-70);
+  white-space: nowrap;
+  padding-right: var(--space-md);
+}
+
+/* Estilos para status y prioridad */
+.status-priority {
+  white-space: nowrap;
+}
+
+.status, .priority {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-sm);
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.status {
+  background-color: var(--trans-10);
+}
+
+.status-pending { background-color: var(--status-pending); }
+.status-in-progress { background-color: var(--status-in-progress); }
+.status-in-review { background-color: var(--status-in-review); }
+.status-completed { background-color: var(--status-completed); }
+
+.priority-low { background-color: var(--priority-low); }
+.priority-medium { background-color: var(--priority-medium); }
+.priority-high { background-color: var(--priority-high); }
+.priority-critical { background-color: var(--priority-critical); }
+
+.status, .priority {
+  color: var(--trans-90);
+}
+
+/* Status dropdown in table - mejorado */
+.status-actions select {
+  background-color: var(--trans-15);
+  color: var(--oracle-text);
+  border: 1px solid var(--trans-25);
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 30px;
+  transition: all 0.3s ease;
+}
+
+.status-actions select:focus {
+  outline: none;
+  border-color: var(--oracle-red);
+  box-shadow: 0 0 0 3px rgba(199, 70, 52, 0.25);
+}
+
+.status-actions select:hover {
+  background-color: var(--trans-25);
+}
+
+/* Estilos para botones MUI */
+button.MuiButton-root.AddButton {
+  background-color: var(--oracle-red);
+  color: white;
+  padding: 0 1.2rem;
+  height: 46px;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  font-size: var(--font-md);
+  text-transform: none;
+}
+
+button.MuiButton-root.AddButton:hover {
+  background-color: #d8584a;
+  box-shadow: var(--shadow-red);
+}
+
+button.MuiButton-root.AddButton::before {
+  content: "+";
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-right: var(--space-sm);
+  line-height: 0;
+}
+
+button.MuiButton-root.AddButton:active {
+  transform: scale(0.98);
+}
+
+button.MuiButton-root.DeleteButton {
+  background-color: var(--oracle-red);
+  color: white;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  text-transform: none;
+}
+
+button.MuiButton-root.DeleteButton:hover {
+  background-color: #d8584a;
+  box-shadow: var(--shadow-red);
+}
+
+button.MuiButton-root.DeleteButton::before {
+  content: "×";
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-right: 0.3rem;
+  line-height: 0;
+}
+
+button.MuiButton-root.DoneButton {
+  background-color: var(--trans-15);
+  color: white;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  text-transform: none;
+}
+
+button.MuiButton-root.DoneButton:hover {
+  background-color: var(--trans-25);
+  box-shadow: 0 4px 15px var(--trans-10);
+}
+
+/* Filtros - mejorados */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: var(--trans-05);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--trans-05);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.filter-group label {
+  font-size: var(--font-md);
+  color: var(--trans-70);
+}
+
+.filter-group select {
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background-color: var(--trans-10);
+  border: 1px solid var(--trans-15);
+  color: var(--oracle-text);
+  font-size: var(--font-md);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 30px;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--oracle-red);
+  box-shadow: 0 0 0 3px rgba(199, 70, 52, 0.25);
+}
+
+.filter-group select:hover {
+  background-color: var(--trans-15);
+}
+
+/* Fix para botones deshabilitados */
+button.MuiButton-root.Mui-disabled {
+  background: #4a4a4a;
+  color: var(--trans-40);
+}
+
+/* Loading container */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-xxl) 0;
+}
+
+.loading-spinner {
+  border: 4px solid var(--trans-10);
+  border-radius: 50%;
+  border-top: 4px solid var(--oracle-red);
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mensaje de estado vacío */
+.empty-message {
+  text-align: center;
+  padding: var(--space-xl) 0;
+  color: var(--trans-40);
+  font-style: italic;
+  background: var(--trans-05);
+  border-radius: var(--radius-md);
+  margin: var(--space-md) 0;
+}
+
+/* Estilo de mensaje de error */
+.error-message {
+  background-color: rgba(199, 70, 52, 0.1);
+  border-left: 4px solid var(--oracle-red);
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: var(--radius-sm);
+  color: #ffcccc;
+}
+
+/* Encabezado de sección de tareas */
+.task-section-header {
+  border-bottom: 1px solid var(--trans-10);
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+
+/* Task counter badges */
+.task-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--trans-10);
+  color: var(--trans-70);
+  font-size: var(--font-sm);
+  border-radius: var(--radius-xl);
+  padding: 0.2rem 0.7rem;
+  margin-left: 0.8rem;
+  min-width: 20px;
+}
+
+/* Estilos del Modal */
+.modal-header {
+  border-bottom: 1px solid var(--trans-10);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+.modal-title {
+  color: var(--oracle-red) !important;
+  font-size: 1.5rem !important;
+  font-weight: 500 !important;
+}
+
+.modal-content {
+  padding: 0 var(--space-sm);
+}
+
+.modal-section {
+  margin-bottom: var(--space-lg);
+}
+
+.modal-section-title {
+  margin-bottom: var(--space-sm) !important;
+  color: var(--trans-90) !important;
+  font-size: 1.1rem !important;
+  position: relative;
+  padding-left: var(--space-lg);
+}
+
+.modal-section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 16px;
+  background-color: var(--oracle-red);
+  border-radius: var(--radius-sm);
+}
+
+.modal-description {
+  font-size: var(--font-lg) !important;
+  line-height: 1.5 !important;
+  color: var(--trans-90) !important;
+}
+
+.modal-steps {
+  background-color: var(--trans-05);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.step-item {
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--trans-05);
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+.modal-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-md);
+  background-color: var(--trans-05);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-lg);
+}
+
+.modal-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.modal-meta-label {
+  color: var(--trans-70) !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+}
+
+.modal-meta-value {
+  color: var(--trans-90) !important;
+  font-size: 0.9rem !important;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+button.modal-action-button {
+  padding: 8px 16px !important;
+  border-radius: var(--radius-md) !important;
+  transition: all 0.3s ease !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+}
+
+button.update-status {
+  background-color: var(--status-in-review) !important;
+  color: white !important;
+}
+
+button.update-status:hover {
+  background-color: rgba(3, 169, 244, 0.5) !important;
+}
+
+button.delete-task {
+  background-color: var(--oracle-red) !important;
+  color: white !important;
+}
+
+button.delete-task:hover {
+  background-color: #d8584a !important;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(199, 70, 52, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(199, 70, 52, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(199, 70, 52, 0); }
+}
+
+/* Nuevo elemento añadido - animación de highlight */
+.new-item-highlight {
+  animation: highlight 2s ease-out;
+}
+
+@keyframes highlight {
+  0% { background: rgba(199, 70, 52, 0.2); }
+  100% { background: var(--trans-05); }
+}
+
+/* Mejora de enfoque para accesibilidad */
+*:focus-visible {
+  outline: 2px solid var(--oracle-red);
+  outline-offset: 2px;
+}
+
+/* Mejora para hover de botones en móvil */
+@media (hover: hover) {
+  /* Solo aplicar efectos hover en dispositivos que lo soportan */
+  button:hover {
+    transform: translateY(-2px);
   }
+}
+
+/* Estilos para el formulario expandido - mejorado */
+.form-main-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: var(--space-sm);
+}
+
+.expand-button {
+  margin-left: var(--space-sm) !important;
+  background-color: var(--trans-10) !important;
+  color: var(--oracle-red) !important;
+}
+
+.expand-button:hover {
+  background-color: var(--trans-15) !important;
+}
+
+.form-expanded {
+  background-color: var(--trans-10);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-lg);
+  animation: fadeIn 0.3s ease-out;
+  border: 1px solid var(--trans-15);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-row {
+  margin-bottom: var(--space-lg);
+}
+
+.form-selects {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.status-select, .priority-select {
+  flex: 1;
+  min-width: 150px;
+}
+
+.custom-text-field .MuiOutlinedInput-root {
+  background-color: var(--trans-15);
+  color: var(--oracle-text);
+  border-radius: var(--radius-md);
+}
+
+.custom-text-field .MuiOutlinedInput-input {
+  padding: 14px 16px;
+  font-size: var(--font-md);
+}
+
+.custom-text-field .MuiOutlinedInput-notchedOutline {
+  border-color: var(--trans-25);
+  border-width: 1px;
+}
+
+.custom-text-field:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--trans-40);
+}
+
+.custom-text-field.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--oracle-red);
+}
+
+.custom-input-label {
+  color: var(--trans-90) !important;
+  font-size: var(--font-md) !important;
+  font-weight: 500 !important;
+}
+
+.custom-select {
+  background-color: var(--trans-15) !important;
+  color: var(--oracle-text) !important;
+}
+
+.custom-select .MuiOutlinedInput-notchedOutline {
+  border-color: var(--trans-25) !important;
+}
+
+.custom-select:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--trans-40) !important;
+}
+
+.custom-select.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--oracle-red) !important;
+}
+
+/* Mejorando los estilos para el selector de estado */
+.status-actions select {
+  background-color: var(--trans-15);
+  color: var(--oracle-text);
+  border: 1px solid var(--trans-25);
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 30px;
+  transition: all 0.3s ease;
+}
+
+.status-actions select:focus {
+  outline: none;
+  border-color: var(--oracle-red);
+  box-shadow: 0 0 0 3px rgba(199, 70, 52, 0.25);
+}
+
+/* Añadir estilo para el botón de mover a siguiente estado */
+.modal-action-button.move-next {
+  background-color: var(--trans-25) !important;
+  color: white !important;
+  border: 1px solid var(--trans-40) !important;
+}
+
+.modal-action-button.move-next:hover {
+  background-color: var(--status-in-progress) !important;
+}
+
+/* Estilos para la integración de GitHub - mejorados */
+.commit-sha {
+  font-family: monospace;
+  background-color: var(--trans-10);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+.github-link {
+  color: var(--oracle-text);
+  text-decoration: none;
+  background-color: var(--trans-15);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+  white-space: nowrap;
+  margin: 4px 0;
+}
+
+.github-link:hover {
+  background-color: var(--oracle-red);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.dialog-help-text {
+  color: var(--trans-70);
+  font-size: 0.85rem;
+  margin-top: 16px;
+}
+
+/* Estilos para diálogos Material UI - corregidos */
+.MuiDialog-paper {
+  background-color: var(--oracle-dark) !important;
+  color: var(--oracle-text) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: var(--space-md) !important;
+  border: 1px solid var(--trans-10) !important;
+}
+
+.MuiDialogTitle-root {
+  background-color: transparent !important;
+  color: var(--oracle-red) !important;
+  font-size: 1.3rem !important;
+  font-weight: 500 !important;
+  padding: var(--space-md) var(--space-md) var(--space-sm) !important;
+}
+
+.MuiDialogContent-root {
+  color: var(--oracle-text) !important;
+  padding: var(--space-md) !important;
+}
+
+.MuiDialogContent-root p {
+  margin-bottom: var(--space-md);
+}
+
+.MuiDialogActions-root {
+  padding: var(--space-md) !important;
+  border-top: 1px solid var(--trans-10) !important;
+}
+
+.MuiTextField-root {
+  margin-top: var(--space-md) !important;
+}
+
+/* Material UI Input Override para diálogos */
+.MuiDialog-paper .MuiInputBase-root {
+  background-color: var(--trans-10) !important;
+  color: var(--oracle-text) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.MuiDialog-paper .MuiInputBase-input {
+  padding: 12px 14px !important;
+  font-size: var(--font-md) !important;
+}
+
+.MuiDialog-paper .MuiOutlinedInput-notchedOutline {
+  border-color: var(--trans-25) !important;
+}
+
+.MuiDialog-paper .MuiInputLabel-root {
+  color: var(--trans-70) !important;
+  font-size: var(--font-md) !important;
+}
+
+.MuiDialog-paper .MuiInputLabel-root.Mui-focused {
+  color: var(--oracle-red) !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
   .App {
-    background: #201E1C;
-    color: #FEF9F2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: max(12px,min(2vw, 18px)); /*calc(1vw + 1vmin);*/
-    margin: 2rem 0 4rem 0;
-    padding: 1rem;
-    position: relative;
-    box-shadow: 0 10px 18px 0 rgba(0, 0, 0, 0.2), 0 4.5rem 8rem 0 rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
+    margin: var(--space-md);
+    padding: var(--space-lg);
+    border-radius: 0.8rem;
   }
-  div#maincontent, div#newinputform form {
-    width: 95%;
+  
+  .oracle-logo {
+    height: 100px !important;
   }
-  div#maincontent {
-    margin: 0;
-    padding: 0;
-  }
+  
   h1 {
-    margin: 0.5rem 0 1rem 0;
-    padding: 0;
+    font-size: 1.5rem;
   }
-  h2 {
-    margin: 0.1rem 0 0.1rem 0;
-    padding: 0;
+  
+  div#newinputform form {
+    flex-direction: column;
+    gap: var(--space-sm);
   }
+  
   #newiteminput {
     width: 100%;
+    margin-bottom: var(--space-sm);
   }
-  div#newinputform {
+  
+  button.MuiButton-root.AddButton {
     width: 100%;
   }
-  div#newinputform form{
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
-  }
-  #donelist {
-    margin: 0;
-    padding: 0;
-  }
-  table#itemlistNotDone {
-    margin-bottom: 2rem;
-  }
-  table#itemlistDone {
-    margin-bottom: 3rem;
-  }
-  table.itemlist {
-    margin-top: 0.7rem;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-  }
+  
   table.itemlist td {
-    border-bottom: solid 1px #5B5652;
-    padding: .5rem;
+    padding: var(--space-sm);
   }
-  table.itemlist td.description {
-    width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+  
   table.itemlist td.date {
-    font-size: max(10px,min(1.5vw, 14px));
-    color: grey;
-    white-space: nowrap;
-    padding-right: 0;
-    padding-left: 0;
+    font-size: 0.7rem;
   }
-  table.itemlist tr:hover {
-    background-color: #161513;
+  
+  button.MuiButton-root.DeleteButton, 
+  button.MuiButton-root.DoneButton {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
+    min-width: 70px;
   }
-  input {
-    font-family: inherit;
-    font-size: 100%;
-    line-height: 1;
-    margin: 0;
+  
+  .filters {
+    flex-direction: column;
+    gap: 0.7rem;
   }
-  button,
-  input {
-    overflow: visible;
+  
+  .filter-group {
+    width: 100%;
   }
-  input[type="text"] {
-    border-radius: 0.3rem;
-    padding-left: 10px;
+  
+  .filter-group select {
+    flex-grow: 1;
   }
-  button.AddButton,
-  button.DeleteButton,
-  button.AddButton,
-  button.DoneButton {
-    font-size: max(8px,min(2vw, 12px));
-    padding: 0.35em 0.5em;
-    color:#161513;
+  
+  .modal-meta {
+    grid-template-columns: 1fr;
   }
-  /* from the redwood theme */
-  button.AddButton {
-    color: #FEF9F2;
-    background-color: #5F7D4F;
+  
+  .modal-actions {
+    flex-direction: column;
   }
-  button.AddButton:hover {
-    background-color: #6F915D;
+  
+  button.modal-action-button {
+    width: 100%;
   }
-  button.DeleteButton {
-    color: #FEF9F2;
-    background-color:  #D63B25;
+  
+  .form-selects {
+    flex-direction: column;
+    gap: var(--space-md);
   }
-  button.DeleteButton:hover {
-    background-color: #EC4F3A
+  
+  .app-tab {
+    padding: 10px;
+    font-size: var(--font-sm);
   }
-  button.DoneButton {
-    background-color: #FBF9F8;
+}
+
+@media (max-width: 480px) {
+  table.itemlist td.date {
+    display: block;
+    text-align: left;
+    padding-top: 0;
   }
-  button.DoneButton:hover {
-    background-color: #D4CFCA;
+  
+  table.itemlist tr {
+    display: flex;
+    flex-direction: column;
   }
+  
+  table.itemlist td:not(.description) {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  table.itemlist td.description {
+    font-size: 0.9rem;
+  }
+  
+  h2 {
+    font-size: 1.1rem;
+  }
+  
+  #newiteminput {
+    font-size: 0.9rem;
+  }
+  
+  .task-count {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.5rem;
+  }
+  
+  .status, .priority {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+  
+  .status-actions select {
+    font-size: 0.8rem;
+    padding: 5px 8px;
+  }
+  
+  .github-link {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Mejoras de impresión */
+@media print {
+  body, .App {
+    background: white;
+    color: black;
+    box-shadow: none;
+  }
+  
+  .App {
+    border: 1px solid #ccc;
+  }
+  
+  h1 {
+    color: var(--oracle-red);
+  }
+  
+  button, .status-actions, .filters {
+    display: none;
+  }
+  
+  #itemlistDone td.description {
+    text-decoration: line-through;
+    color: #666;
+  }
+  
+  table.itemlist tr {
+    border-bottom: 1px solid #eee;
+    box-shadow: none;
+  }
+  
+  .task-count, .status, .priority {
+    border: 1px solid #ccc;
+    color: #333;
+  }
+}
